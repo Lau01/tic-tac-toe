@@ -72,3 +72,167 @@
 // A Vue.js version of the game (in place of the jQuery version)
 // Your Github portfolio site
 // Any other front-end project that interests you
+
+
+// const ticTacToe = {
+//   cells: [
+//     0, 0, 0,
+//     0, 0, 0,
+//     0, 0, 0,
+//   ],
+//
+//   turnState: false, // false = circle. true = cross.
+//
+//   diagonalWin1: function() {
+//     let runningCount = 0;
+//     for (let i = 0; i < this.cellsX.length; i+=4) {
+//       runningCountO += this.cells[i];
+//     }
+//
+//     if (runningCount === 3) {
+//       console.log("you win");
+//     } else {
+//       console.log("No one has won yet")
+//     }
+//   },
+// }
+//
+// ticTacToe.addState(0);
+// ticTacToe.addState(4);
+// ticTacToe.addState(8);
+
+// $(document).ready(function() {
+//
+//   $('#box1').on('click', function() {
+//     $('#image1').attr('class', 'displayX');
+//   });
+//
+//   $('#box2').on('click', function() {
+//     $('#image2').attr('class', 'displayX');
+//   });
+//
+//   $('#box3').on('click', function() {
+//     $('#image3').attr('class', 'displayX');
+//   });
+//
+//   $('#box4').on('click', function() {
+//     $('#image4').attr('class', 'displayX');
+//   });
+//
+//   $('#box5').on('click', function() {
+//     $('#image5').attr('class', 'displayX');
+//   });
+//
+//   $('#box6').on('click', function() {
+//     $('#image6').attr('class', 'displayX');
+//   });
+//   $('#box7').on('click', function() {
+//     $('#image7').attr('class', 'displayX');
+//   });
+//   $('#box8').on('click', function() {
+//     $('#image8').attr('class', 'displayX');
+//   });
+//   $('#box9').on('click', function() {
+//     $('#image9').attr('class', 'displayX');
+//   });
+//
+// }); //document.ready
+
+
+// attempt at ROW/COLS
+// const ticTacToe = {
+//   column: [1, 1, 1],
+//   row:[1, 1, 0],
+//
+//   checkRowWin: function() {
+//     let colTotalArray = this.column.reduce(function(total, num) {
+//       return total + num;
+//     })
+//     for (i = 0; i < this.row.length; i++) {
+//       if (colTotalArray === 3 && this.row[i] === 1) {
+//         console.log(`Winner on row ${i+1}`);
+//       }
+//     }
+//   },
+//
+//   checkColumnWin: function() {
+//     let rowTotalArray = this.row.reduce(function(total, num) {
+//       return total + num;
+//     })
+//     for (i = 0; i < this.column.length; i++) {
+//       if (rowTotalArray === 3 && this.column[i] === 1) {
+//         console.log(`Winner on column ${i+1}`);
+//       }
+//     }
+//   },
+//
+//   checkDiagonalWin: function() {
+//     let rowTotalArray = this.row.reduce(function(total, num) {
+//       return total + num;
+//     });
+//     let colTotalArray = this.column.reduce(function(total, num) {
+//       return total + num;
+//     });
+//
+//     if
+//
+//   }
+//
+// }
+
+const board = this.boardState;
+
+const ticTacToe = {
+  boardState: [
+    ["_", "_", "_"],
+    ["_", "_", "_"],
+    ["_", "_", "_"],
+  ],
+
+  addO: function(row, column) {
+    this.boardState[row][column] = 0;
+  },
+
+  addX: function(row, column) {
+    this.boardState[row][column] = 1;
+  },
+
+  checkRowWin: function() {
+    for (let i = 0; i < this.boardState[i].length; i++) {
+      let sumRow = this.boardState[i].reduce(function(element, num) {
+            return element + num;
+      })
+
+      if (sumRow === 3) {
+        return console.log(`X has won at row ${i+1}`);
+      } else if (sumRow === 0) {
+        return console.log(`O has won at row ${i+1}`);
+      }
+
+    }
+  },
+
+  checkColumnWin: function () {
+    for (let j = 0; j < this.boardState[1].length; j++) {
+      let verticalArray = [];
+      for (let i = 0; i < this.boardState[1].length; i++) {
+        verticalArray[i] = this.boardState[i][j];
+        console.log(verticalArray);
+      }
+      let sumCol = verticalArray.reduce(function(element, num) {
+        return element + num;
+      })
+      if (sumCol === 3) {
+        return console.log(`X has won at column ${j+1}`);
+      } else if (sumCol === 0) {
+        return console.log(`O has won at column ${j+1}`);
+      }
+
+    }
+  }
+
+}; // ticTacToe
+
+ticTacToe.addO(0,1);
+ticTacToe.addO(1,1);
+ticTacToe.addO(2,1);
