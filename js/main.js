@@ -180,13 +180,21 @@
 //
 // }
 
-const sumArray = function(array) {
-  array.reduce(function(elementAccrue, num) {
-    return elementAccrue + num;
-  })
-}
+// const sumArray = function(array) {
+//   array.reduce(function(elementAccrue, num) {
+//     return elementAccrue + num;
+//   })
+// };
 
-const board = this.boardState;
+
+
+const checkWinO = function(element) {
+  return element === 0;
+};
+
+const checkWinX = function(element) {
+  return element === 1;
+};
 
 const ticTacToe = {
   boardState: [
@@ -195,94 +203,178 @@ const ticTacToe = {
     ["", "", ""],
   ],
 
+  turnCount: 0,
+
+  checkDraw: function() {
+    if (turnCount === 9) {
+      console.log('Draw');
+    }
+  },
+
   addO: function(row, column) {
     this.boardState[row][column] = 0;
+    this.turnCount += 1;
   },
 
   addX: function(row, column) {
     this.boardState[row][column] = 1;
+    this.turnCount += 1;
+  },
+
+  addPiece: function(row, column) {
+    if (this.turnCount % 2 === 0) {
+      this.addX(row, column);
+    } else if (this.turnCount % 2 !== 0) {
+      this.addO(row, column);
+    }
   },
 
   checkRowWin: function() {
     for (let i = 0; i < this.boardState[1].length; i++) {
-      console.log(this.boardState[i]);
-      let sumRow = this.boardState[1].reduce(function(element, num) {
-            return element + num;
-      })
-
-      if (sumRow === 3) {
-        return console.log(`X has won at row ${i+1}`);
-      } else if (sumRow === 0) {
-        return console.log(`O has won at row ${i+1}`);
-      }
+      if (this.boardState[i].every(checkWinX)) {
+        return console.log(`X has won at row ${i+1}`)
+      } else if (this.boardState[i].every(checkWinO)) {
+        return console.log(`O has won at row ${i+1}`)
+      };
 
     }
   },
 
   checkColumnWin: function () {
     for (let j = 0; j < this.boardState[1].length; j++) {
-      let verticalArray = [];
+      let verticalArray = ['', '', ''];
       for (let i = 0; i < this.boardState[1].length; i++) {
         verticalArray[i] = this.boardState[i][j];
-        console.log(verticalArray);
-      }
-      let sumCol = verticalArray.reduce(function(element, num) {
-        return element + num;
-      })
-      // let sumCol = sumArray(verticalArray);
-      // console.log(sumCol);
-
-      if (sumCol === 3) {
-        return console.log(`X has won at column ${j+1}`);
-      } else if (sumCol === 0) {
-        return console.log(`O has won at column ${j+1}`);
       }
 
+      if (verticalArray.every(checkWinX)) {
+        return console.log(`X has won at a row`)
+      } else if (verticalArray.every(checkWinO)) {
+        return console.log(`O has won at a row`)
+      };
     }
   },
 
   checkDiagTopLeft: function() {
-    let diagonalArray = [];
+    let diagonalArray1 = ['', '', ''];
     for (let i = 0; i < this.boardState[1].length; i++) {
-      diagonalArray.push(this.boardState[i][i]);
-      console.log(diagonalArray);
-      let sumDiag = diagonalArray.reduce(function(element, num){
-        return element + num;
-      })
-      console.log(sumDiag);
+      diagonalArray1[i] = this.boardState[i][i];
 
-      if (sumDiag === 3) {
-        return console.log(`X has won at diagonal`);
-      } else if (sumDiag === 0) {
-        return console.log(`O has won at diagonal`);
-      }
+      if (diagonalArray1.every(checkWinX)) {
+        return console.log(`X has won at diagonal1`);
+      } else if (diagonalArray1.every(checkWinO)) {
+        return console.log(`O has won at a diagonal1`);
+      };
     }
   },
+
 
   checkDiagTopRight: function() {
-    let diagonalArray = [];
-    let increment = 0;
+    let diagonalArray2 = ['', '', ''];
     for (let i = 0; i < 3; i++) {
-      diagonalArray.push(this.boardState[i][2-increment]); //use length-1 instead of 2
-      increment += 1;
-      console.log(diagonalArray);
-      let sumDiag = diagonalArray.reduce(function(element, num) {
-        return element + num;
-      })
-      console.log(sumDiag);
+      diagonalArray2[i] = this.boardState[i][2-i]; //use length-1 instead of 2
 
-      if (sumDiag === 3) {
-        return console.log(`X has won at diagonal`);
-      } else if (sumDiag === 0) {
-        return console.log(`O has won at diagonal`);
-      }
+      if (diagonalArray2.every(checkWinX)) {
+        return console.log(`X has won at diagonal2`)
+      } else if (diagonalArray2.every(checkWinO)) {
+        return console.log(`O has won at diagonal2`)
+      };
     }
   },
-
-
 
 }; // ticTacToe
 
-ticTacToe.addX(0,2);
-ticTacToe.addX(1,1);
-ticTacToe.addX(2,0);
+// ticTacToe.addX(0,2);
+// ticTacToe.addX(1,1);
+// ticTacToe.addX(2,0);
+
+$(document).ready(function() {
+
+  $('#box1').on('click', function() {
+    ticTacToe.addPiece(0,0);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image1').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+
+  $('#box2').on('click', function() {
+    ticTacToe.addPiece(0,1);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image2').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+
+  $('#box3').on('click', function() {
+    ticTacToe.addPiece(0,2);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image3').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+
+  $('#box4').on('click', function() {
+    ticTacToe.addPiece(1,0);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image4').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+
+  $('#box5').on('click', function() {
+    ticTacToe.addPiece(1,1);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image5').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+
+  $('#box6').on('click', function() {
+    ticTacToe.addPiece(1,2);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image6').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+  $('#box7').on('click', function() {
+    ticTacToe.addPiece(2,0);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image7').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+  $('#box8').on('click', function() {
+    ticTacToe.addPiece(2,1);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image8').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+  $('#box9').on('click', function() {
+    ticTacToe.addPiece(2,2);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    $('#image9').attr('class', 'displayX');
+    console.log(ticTacToe.boardState);
+  });
+
+}); //document.ready
