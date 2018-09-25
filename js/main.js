@@ -206,7 +206,7 @@ const ticTacToe = {
   turnCount: 0,
 
   checkDraw: function() {
-    if (turnCount === 9) {
+    if (this.turnCount === 9 && this.boardState[0] !== "") {
       console.log('Draw');
     }
   },
@@ -240,9 +240,9 @@ const ticTacToe = {
   checkRowWin: function() {
     for (let i = 0; i < this.boardState[1].length; i++) {
       if (this.boardState[i].every(checkWinX)) {
-        return this.winnerX = true;
+        return console.log('x wins')
       } else if (this.boardState[i].every(checkWinO)) {
-        return this.winnerX = false;
+        return console.log('o wins');
       };
 
     }
@@ -256,9 +256,9 @@ const ticTacToe = {
       }
 
       if (verticalArray.every(checkWinX)) {
-        return this.winnerX = true;
+        return console.log('x wins')
       } else if (verticalArray.every(checkWinO)) {
-        return this.winnerX = false;
+        return console.log('o wins');
       };
     }
   },
@@ -269,9 +269,9 @@ const ticTacToe = {
       diagonalArray1[i] = this.boardState[i][i];
 
       if (diagonalArray1.every(checkWinX)) {
-        return this.winnerX = true;
+        return console.log('x wins')
       } else if (diagonalArray1.every(checkWinO)) {
-        return this.winnerX = false;
+        return console.log('o wins');
       };
     }
   },
@@ -282,158 +282,181 @@ const ticTacToe = {
       diagonalArray2[i] = this.boardState[i][(this.boardState.length - 1)-i]; //use length-1 instead of 2
 
       if (diagonalArray2.every(checkWinX)) {
-        return this.winnerX = true;
+        return console.log('x wins')
       } else if (diagonalArray2.every(checkWinO)) {
-        return this.winnerX = false;
+        return console.log('o wins');
       };
     }
   },
 
 }; // ticTacToe
 
-// ticTacToe.addX(0,2);
-// ticTacToe.addX(1,1);
-// ticTacToe.addX(2,0);
-
 $(document).ready(function() {
-
-  $('#box1').on('click', function() {
-    if ($('#image1').attr('class') == 'imageInBox') { //only run if class is initial no picture "imageInBox"
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image1').attr('class', 'displayX'); //change class to X
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image1').attr('class', 'displayO') // change class to O
-      }
-      ticTacToe.addPiece(0,0);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-
-    } else {
-      return;
-    }
-  });
-
-  $('#box2').on('click', function() {
-    if ($('#image2').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image2').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image2').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(0,1);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
-
-  $('#box3').on('click', function() {
-    if ($('#image3').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image3').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image3').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(0,2);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
-
-  $('#box4').on('click', function() {
-    if ($('#image4').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image4').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image4').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(1,0);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
-
-  $('#box5').on('click', function() {
-    if ($('#image5').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image5').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image5').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(1,1);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
-
-  $('#box6').on('click', function() {
-    if ($('#image6').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image6').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image6').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(1,2);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
-
-  $('#box7').on('click', function() {
-    if ($('#image7').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image7').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image7').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(2,0);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
-
-  $('#box8').on('click', function() {
-    if ($('#image8').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image8').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image8').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(2,1);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
-
-  $('#box9').on('click', function() {
-    if ($('#image9').attr('class') == 'imageInBox') {
-      if (ticTacToe.turnCount % 2 === 0) {
-        $('#image9').attr('class', 'displayX');
-      } else if (ticTacToe.turnCount % 2 !== 0) {
-        $('#image9').attr('class', 'displayO')
-      }
-      ticTacToe.addPiece(2,2);
-      ticTacToe.checkRowWin();
-      ticTacToe.checkColumnWin();
-      ticTacToe.checkDiagTopLeft();
-      ticTacToe.checkDiagTopRight();
-    }
-  });
+  $('td').on('click',function() {
+    let firstArg = parseInt($(this)[0].className.split('')[1]);
+    let secondArg = parseInt($(this)[0].className.split('')[4]);
+    ticTacToe.addPiece(firstArg, secondArg);
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    ticTacToe.checkDraw();
+  })
 
 
-}); //document.ready
+}) //document ready
+
+
+// %%%%%%%%%%%%%%%%%FOR DIVS %%%%%%%%%%%%%%%%%%%%%%%%%%
+// $(document).ready(function() {
+//
+//   $('#box1').on('click', function() {
+//     if ($('#image1').attr('class') == 'imageInBox') { //only run if class is initial no picture "imageInBox"
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image1').attr('class', 'displayX'); //change class to X
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image1').attr('class', 'displayO') // change class to O
+//       }
+//       ticTacToe.addPiece(0,0);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//
+//
+//     } else {
+//       return;
+//     }
+//   });
+//
+//   $('#box2').on('click', function() {
+//     if ($('#image2').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image2').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image2').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(0,1);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//   $('#box3').on('click', function() {
+//     if ($('#image3').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image3').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image3').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(0,2);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//   $('#box4').on('click', function() {
+//     if ($('#image4').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image4').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image4').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(1,0);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//   $('#box5').on('click', function() {
+//     if ($('#image5').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image5').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image5').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(1,1);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//   $('#box6').on('click', function() {
+//     if ($('#image6').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image6').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image6').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(1,2);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//   $('#box7').on('click', function() {
+//     if ($('#image7').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image7').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image7').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(2,0);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//   $('#box8').on('click', function() {
+//     if ($('#image8').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image8').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image8').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(2,1);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//   $('#box9').on('click', function() {
+//     if ($('#image9').attr('class') == 'imageInBox') {
+//       if (ticTacToe.turnCount % 2 === 0) {
+//         $('#image9').attr('class', 'displayX');
+//       } else if (ticTacToe.turnCount % 2 !== 0) {
+//         $('#image9').attr('class', 'displayO')
+//       }
+//       ticTacToe.addPiece(2,2);
+//       ticTacToe.checkRowWin();
+//       ticTacToe.checkColumnWin();
+//       ticTacToe.checkDiagTopLeft();
+//       ticTacToe.checkDiagTopRight();
+//       ticTacToe.checkDraw();
+//     }
+//   });
+//
+//
+// }); //document.ready

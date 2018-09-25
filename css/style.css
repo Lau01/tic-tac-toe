@@ -17,7 +17,7 @@ body {
   overflow: hidden;
 }
 
-.box {
+.r0.r1.r2 {
   margin: 0;
   background-color: grey;
   border: 1px solid black;
@@ -27,6 +27,12 @@ body {
   max-height: 180px;
   max-height: 190px;
   display: inline-block;
+}
+
+td {
+  border: 1px solid black;
+  height: 20vh;
+  width: 20vw;
 }
 
 .imageInBox {
