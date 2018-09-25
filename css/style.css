@@ -1,38 +1,35 @@
 body {
-  margin: 0 auto;
-  width: 100%;
+  font-family: 'Permanent Marker', cursive;
+}
+
+header {
+  text-align: center;
+  font-size: 5em;
 }
 
 #container {
   margin: 0 auto;
-  width: 605px;
-  height: 605px;
-}
-
-.row {
-  width: 605px;
-  max-height: 201px;
-  min-height: 201px;
-  margin: 0 auto;
-  overflow: hidden;
+  width: 600px;
+  height: 600px;
 }
 
 .r0.r1.r2 {
   margin: 0;
   background-color: grey;
   border: 1px solid black;
-  max-width: 190px;
-  min-width: 190px;
-  height: 180px;
-  max-height: 180px;
-  max-height: 190px;
-  display: inline-block;
 }
 
-td {
+.textUnder {
+  font-size: 25px;
+  text-align: center;
+}
+
+.box {
   border: 1px solid black;
-  height: 20vh;
-  width: 20vw;
+  height: 200px;
+  width: 200px;
+  margin: 1px;
+  padding: 0;
 }
 
 .imageInBox {
@@ -41,13 +38,17 @@ td {
 }
 
 .displayX {
-  width: 180px;
-  height: 180px;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   content: url('../images/cross.png');
 }
 
 .displayO {
-  width: 180px;
-  height: 180px;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   content: url('../images/circle.svg');
 }

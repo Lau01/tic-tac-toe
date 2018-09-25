@@ -73,7 +73,7 @@
 // Your Github portfolio site
 // Any other front-end project that interests you
 
-
+// FIRST ATTEMP &&&&&&&&&&&&&
 // const ticTacToe = {
 //   cells: [
 //     0, 0, 0,
@@ -139,7 +139,7 @@
 // }); //document.ready
 
 
-// attempt at ROW/COLS
+// Attempt at ROW/COLS
 // const ticTacToe = {
 //   column: [1, 1, 1],
 //   row:[1, 1, 0],
@@ -206,10 +206,13 @@ const ticTacToe = {
   turnCount: 0,
 
   checkDraw: function() {
-    if (this.turnCount === 9 && this.boardState[0] !== "") {
-      console.log('Draw');
+    if (this.turnCount === 9) {
+      console.log('draw')
+      return this.gameContine = false;
     }
   },
+
+  gameContinue: true,
 
   addO: function(row, column) {
     if (this.boardState[row][column] === '') {
@@ -240,9 +243,9 @@ const ticTacToe = {
   checkRowWin: function() {
     for (let i = 0; i < this.boardState[1].length; i++) {
       if (this.boardState[i].every(checkWinX)) {
-        return console.log('x wins')
+        return this.gameContinue = false;
       } else if (this.boardState[i].every(checkWinO)) {
-        return console.log('o wins');
+        return this.gameContinue = false;
       };
 
     }
@@ -256,9 +259,9 @@ const ticTacToe = {
       }
 
       if (verticalArray.every(checkWinX)) {
-        return console.log('x wins')
+        return this.gameContinue = false;
       } else if (verticalArray.every(checkWinO)) {
-        return console.log('o wins');
+        return this.gameContinue = false;
       };
     }
   },
@@ -269,42 +272,64 @@ const ticTacToe = {
       diagonalArray1[i] = this.boardState[i][i];
 
       if (diagonalArray1.every(checkWinX)) {
-        return console.log('x wins')
+        return this.gameContinue = false;
       } else if (diagonalArray1.every(checkWinO)) {
-        return console.log('o wins');
+        return this.gameContinue = false;
       };
     }
   },
 
   checkDiagTopRight: function() {
     let diagonalArray2 = ['', '', ''];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) { //3 should be length of array (row)
       diagonalArray2[i] = this.boardState[i][(this.boardState.length - 1)-i]; //use length-1 instead of 2
 
       if (diagonalArray2.every(checkWinX)) {
-        return console.log('x wins')
+        return this.gameContinue = false;
       } else if (diagonalArray2.every(checkWinO)) {
-        return console.log('o wins');
+        return this.gameContinue = false;
       };
     }
   },
 
 }; // ticTacToe
 
+const checkRound = function() {
+  ticTacToe.checkRowWin();
+  ticTacToe.checkColumnWin();
+  ticTacToe.checkDiagTopLeft();
+  ticTacToe.checkDiagTopRight();
+  ticTacToe.checkDraw();
+}
+
 $(document).ready(function() {
-  $('td').on('click',function() {
-    let firstArg = parseInt($(this)[0].className.split('')[1]);
-    let secondArg = parseInt($(this)[0].className.split('')[4]);
-    ticTacToe.addPiece(firstArg, secondArg);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    ticTacToe.checkDraw();
+
+  $('.box').on('click',function() {
+    if (ticTacToe.gameContinue) {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $(this).find('img:first').attr('class', 'displayX');
+      } else {
+        $(this).find('img:first').attr('class', 'displayO');
+      }
+
+      $(this).css('pointer-events', 'none');
+
+      let rowArg = parseInt($(this)[0].className.split('')[1]);
+      let colArg = parseInt($(this)[0].className.split('')[4]);
+      ticTacToe.addPiece(rowArg, colArg);
+
+      checkRound();
+
+      console.log(ticTacToe.turnCount)
+
+      if (!ticTacToe.gameContinue) {
+        console.log('game over');
+      }
+    }
   })
 
 
-}) //document ready
+}); //document ready
 
 
 // %%%%%%%%%%%%%%%%%FOR DIVS %%%%%%%%%%%%%%%%%%%%%%%%%%
