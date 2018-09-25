@@ -180,13 +180,19 @@
 //
 // }
 
+const sumArray = function(array) {
+  array.reduce(function(elementAccrue, num) {
+    return elementAccrue + num;
+  })
+}
+
 const board = this.boardState;
 
 const ticTacToe = {
   boardState: [
-    ["_", "_", "_"],
-    ["_", "_", "_"],
-    ["_", "_", "_"],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
   ],
 
   addO: function(row, column) {
@@ -198,8 +204,9 @@ const ticTacToe = {
   },
 
   checkRowWin: function() {
-    for (let i = 0; i < this.boardState[i].length; i++) {
-      let sumRow = this.boardState[i].reduce(function(element, num) {
+    for (let i = 0; i < this.boardState[1].length; i++) {
+      console.log(this.boardState[i]);
+      let sumRow = this.boardState[1].reduce(function(element, num) {
             return element + num;
       })
 
@@ -222,6 +229,9 @@ const ticTacToe = {
       let sumCol = verticalArray.reduce(function(element, num) {
         return element + num;
       })
+      // let sumCol = sumArray(verticalArray);
+      // console.log(sumCol);
+
       if (sumCol === 3) {
         return console.log(`X has won at column ${j+1}`);
       } else if (sumCol === 0) {
@@ -229,10 +239,50 @@ const ticTacToe = {
       }
 
     }
-  }
+  },
+
+  checkDiagTopLeft: function() {
+    let diagonalArray = [];
+    for (let i = 0; i < this.boardState[1].length; i++) {
+      diagonalArray.push(this.boardState[i][i]);
+      console.log(diagonalArray);
+      let sumDiag = diagonalArray.reduce(function(element, num){
+        return element + num;
+      })
+      console.log(sumDiag);
+
+      if (sumDiag === 3) {
+        return console.log(`X has won at diagonal`);
+      } else if (sumDiag === 0) {
+        return console.log(`O has won at diagonal`);
+      }
+    }
+  },
+
+  checkDiagTopRight: function() {
+    let diagonalArray = [];
+    let increment = 0;
+    for (let i = 0; i < 3; i++) {
+      diagonalArray.push(this.boardState[i][2-increment]); //use length-1 instead of 2
+      increment += 1;
+      console.log(diagonalArray);
+      let sumDiag = diagonalArray.reduce(function(element, num) {
+        return element + num;
+      })
+      console.log(sumDiag);
+
+      if (sumDiag === 3) {
+        return console.log(`X has won at diagonal`);
+      } else if (sumDiag === 0) {
+        return console.log(`O has won at diagonal`);
+      }
+    }
+  },
+
+
 
 }; // ticTacToe
 
-ticTacToe.addO(0,1);
-ticTacToe.addO(1,1);
-ticTacToe.addO(2,1);
+ticTacToe.addX(0,2);
+ticTacToe.addX(1,1);
+ticTacToe.addX(2,0);
