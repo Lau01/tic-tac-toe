@@ -39,3 +39,9 @@ body {
   height: 180px;
   content: url('../images/cross.png');
 }
+
+.displayO {
+  width: 180px;
+  height: 180px;
+  content: url('../images/circle.svg');
+}

@@ -212,13 +212,21 @@ const ticTacToe = {
   },
 
   addO: function(row, column) {
-    this.boardState[row][column] = 0;
-    this.turnCount += 1;
+    if (this.boardState[row][column] === '') {
+      this.boardState[row][column] = 0;
+      this.turnCount += 1;
+    } else {
+      return;
+    }
   },
 
   addX: function(row, column) {
-    this.boardState[row][column] = 1;
-    this.turnCount += 1;
+    if (this.boardState[row][column] === '') {
+      this.boardState[row][column] = 1;
+      this.turnCount += 1;
+    } else {
+      return;
+    }
   },
 
   addPiece: function(row, column) {
@@ -232,9 +240,9 @@ const ticTacToe = {
   checkRowWin: function() {
     for (let i = 0; i < this.boardState[1].length; i++) {
       if (this.boardState[i].every(checkWinX)) {
-        return console.log(`X has won at row ${i+1}`)
+        return this.winnerX = true;
       } else if (this.boardState[i].every(checkWinO)) {
-        return console.log(`O has won at row ${i+1}`)
+        return this.winnerX = false;
       };
 
     }
@@ -248,9 +256,9 @@ const ticTacToe = {
       }
 
       if (verticalArray.every(checkWinX)) {
-        return console.log(`X has won at a row`)
+        return this.winnerX = true;
       } else if (verticalArray.every(checkWinO)) {
-        return console.log(`O has won at a row`)
+        return this.winnerX = false;
       };
     }
   },
@@ -261,23 +269,22 @@ const ticTacToe = {
       diagonalArray1[i] = this.boardState[i][i];
 
       if (diagonalArray1.every(checkWinX)) {
-        return console.log(`X has won at diagonal1`);
+        return this.winnerX = true;
       } else if (diagonalArray1.every(checkWinO)) {
-        return console.log(`O has won at a diagonal1`);
+        return this.winnerX = false;
       };
     }
   },
 
-
   checkDiagTopRight: function() {
     let diagonalArray2 = ['', '', ''];
     for (let i = 0; i < 3; i++) {
-      diagonalArray2[i] = this.boardState[i][2-i]; //use length-1 instead of 2
+      diagonalArray2[i] = this.boardState[i][(this.boardState.length - 1)-i]; //use length-1 instead of 2
 
       if (diagonalArray2.every(checkWinX)) {
-        return console.log(`X has won at diagonal2`)
+        return this.winnerX = true;
       } else if (diagonalArray2.every(checkWinO)) {
-        return console.log(`O has won at diagonal2`)
+        return this.winnerX = false;
       };
     }
   },
@@ -291,90 +298,142 @@ const ticTacToe = {
 $(document).ready(function() {
 
   $('#box1').on('click', function() {
-    ticTacToe.addPiece(0,0);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image1').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image1').attr('class') == 'imageInBox') { //only run if class is initial no picture "imageInBox"
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image1').attr('class', 'displayX'); //change class to X
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image1').attr('class', 'displayO') // change class to O
+      }
+      ticTacToe.addPiece(0,0);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+
+    } else {
+      return;
+    }
   });
 
   $('#box2').on('click', function() {
-    ticTacToe.addPiece(0,1);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image2').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image2').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image2').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image2').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(0,1);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
 
   $('#box3').on('click', function() {
-    ticTacToe.addPiece(0,2);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image3').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image3').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image3').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image3').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(0,2);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
 
   $('#box4').on('click', function() {
-    ticTacToe.addPiece(1,0);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image4').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image4').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image4').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image4').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(1,0);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
 
   $('#box5').on('click', function() {
-    ticTacToe.addPiece(1,1);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image5').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image5').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image5').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image5').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(1,1);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
 
   $('#box6').on('click', function() {
-    ticTacToe.addPiece(1,2);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image6').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image6').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image6').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image6').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(1,2);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
+
   $('#box7').on('click', function() {
-    ticTacToe.addPiece(2,0);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image7').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image7').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image7').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image7').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(2,0);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
+
   $('#box8').on('click', function() {
-    ticTacToe.addPiece(2,1);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image8').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image8').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image8').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image8').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(2,1);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
+
   $('#box9').on('click', function() {
-    ticTacToe.addPiece(2,2);
-    ticTacToe.checkRowWin();
-    ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    $('#image9').attr('class', 'displayX');
-    console.log(ticTacToe.boardState);
+    if ($('#image9').attr('class') == 'imageInBox') {
+      if (ticTacToe.turnCount % 2 === 0) {
+        $('#image9').attr('class', 'displayX');
+      } else if (ticTacToe.turnCount % 2 !== 0) {
+        $('#image9').attr('class', 'displayO')
+      }
+      ticTacToe.addPiece(2,2);
+      ticTacToe.checkRowWin();
+      ticTacToe.checkColumnWin();
+      ticTacToe.checkDiagTopLeft();
+      ticTacToe.checkDiagTopRight();
+    }
   });
+
 
 }); //document.ready
