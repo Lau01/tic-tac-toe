@@ -30,14 +30,67 @@
     </div>
   </div>
   <div class="textUnder">
-    <p class="whoWins score">Player 1 Wins!</p>
-    <p class="currentScore score">0 - 1</p>
+    <p class="score" id="whoWins">PLACEHOLDER</p>
+    <p class="score" id="currentScore">X - X</p>
   </div>
   <footer>
     <div class="buttonDiv">
-      <button type="button" class="btn btn-dark">RESTART</button>
-      <button type="button" class="btn btn-dark">SETTINGS</button>
-      <button type="button" class="btn btn-dark">HELP?</button>
+      <button type="button" class="btn btn-dark" id="restartButton">RESTART</button>
+      <!-- modal settings -->
+      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Settings</button>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Player 1's Name</label>
+                  <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput2">Player 2's Name</label>
+                  <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+        HELP?
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Instructions</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              tic tac toe is easy. google instructions.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Got It!</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 </body>

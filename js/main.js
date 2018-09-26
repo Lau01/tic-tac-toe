@@ -206,9 +206,8 @@ const ticTacToe = {
   turnCount: 0,
 
   checkDraw: function() {
-    if (this.turnCount === 9) {
-      console.log('draw')
-      return this.gameContine = false;
+    if (this.turnCount === 9 && this.gameContinue) {
+      return this.draw = true;
     }
   },
 
@@ -217,6 +216,8 @@ const ticTacToe = {
   xWin: false,
 
   oWin: false,
+
+  draw: false,
 
   addO: function(row, column) {
     if (this.boardState[row][column] === '') {
@@ -247,8 +248,10 @@ const ticTacToe = {
   checkRowWin: function() {
     for (let i = 0; i < this.boardState[1].length; i++) {
       if (this.boardState[i].every(checkWinX)) {
+        this.xWin = true;
         return this.gameContinue = false;
       } else if (this.boardState[i].every(checkWinO)) {
+        this.oWin = true;
         return this.gameContinue = false;
       };
 
@@ -278,8 +281,10 @@ const ticTacToe = {
       diagonalArray1[i] = this.boardState[i][i];
 
       if (diagonalArray1.every(checkWinX)) {
+        this.xWin = true;
         return this.gameContinue = false;
       } else if (diagonalArray1.every(checkWinO)) {
+        this.oWin = true;
         return this.gameContinue = false;
       };
     }
@@ -291,12 +296,28 @@ const ticTacToe = {
       diagonalArray2[i] = this.boardState[i][(this.boardState.length - 1)-i]; //use length-1 instead of 2
 
       if (diagonalArray2.every(checkWinX)) {
+        this.xWin = true;
         return this.gameContinue = false;
       } else if (diagonalArray2.every(checkWinO)) {
+        this.oWin = true;
         return this.gameContinue = false;
       };
     }
   },
+
+  gameRestart: function() {
+
+    this.turnCount = 0;
+    this.gameContinue = true;
+    this.xWin = false;
+    this.oWin = false;
+    this.draw = false;
+    this.boardState = [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+    ];
+  }
 
 }; // ticTacToe
 
@@ -306,47 +327,46 @@ const checkRound = function() {
   ticTacToe.checkDiagTopLeft();
   ticTacToe.checkDiagTopRight();
   ticTacToe.checkDraw();
-}
+  if (ticTacToe.xWin) {
+    $('#whoWins').html('Player 1 Wins!');
+  } else if (ticTacToe.oWin) {
+    $('#whoWins').html('Player 2 wins!');
+  } else if (ticTacToe.draw) {
+    $('#whoWins').html('DRAW!');
+  }
+};
 
+
+/////////////////////jQuery/////////////////////////////
 $(document).ready(function() {
 
   $('.box').on('click',function() {
 
     if (ticTacToe.gameContinue) {
-
       //Picks random image to print
       let numberPicker = Math.floor(Math.random() * 3);
-      if (ticTacToe.turnCount % 2 === 0) {
-        if (numberPicker === 0) {
-          $(this).find('img:first').attr('class', 'displayX1');
-        } else if (numberPicker === 1) {
-          $(this).find('img:first').attr('class', 'displayX2');
-        } else {
-          $(this).find('img:first').attr('class', 'displayX3')
-        }
-      } else {
-        if (numberPicker === 0) {
-          $(this).find('img:first').attr('class', 'displayO1');
-        } else if (numberPicker === 1) {
-          $(this).find('img:first').attr('class', 'displayO2');
-        } else {
-          $(this).find('img:first').attr('class', 'displayO3')
-        }
-      }
+      ticTacToe.turnCount % 2 === 0 ?
+      $(this).find('img:first').attr('class', `displayX${numberPicker + 1}`):
+      $(this).find('img:first').attr('class', `displayO${numberPicker + 1}`)
 
+      //prevent further clicks
       $(this).css('pointer-events', 'none');
 
+      // grab coords of box clicked
       let rowArg = parseInt($(this)[0].className.split('')[1]);
       let colArg = parseInt($(this)[0].className.split('')[4]);
       ticTacToe.addPiece(rowArg, colArg);
 
       checkRound();
+    } //if gameContinue
+  }); //box click function
 
-      if (!ticTacToe.gameContinue) {
-        console.log('game over');
-      }
-    }
-  })
+  $('#restartButton').on('click', function(){
+    console.log('clicked');
+    ticTacToe.gameRestart();
+    $('.box img').attr('class', 'imageInBox');
+    $('.box').css('pointer-events', 'auto');
+  }); //restartButton function
 
 
 }); //document ready
