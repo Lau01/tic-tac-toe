@@ -214,6 +214,10 @@ const ticTacToe = {
 
   gameContinue: true,
 
+  xWin: false,
+
+  oWin: false,
+
   addO: function(row, column) {
     if (this.boardState[row][column] === '') {
       this.boardState[row][column] = 0;
@@ -259,8 +263,10 @@ const ticTacToe = {
       }
 
       if (verticalArray.every(checkWinX)) {
+        this.xWin = true;
         return this.gameContinue = false;
       } else if (verticalArray.every(checkWinO)) {
+        this.oWin = true;
         return this.gameContinue = false;
       };
     }
@@ -305,11 +311,27 @@ const checkRound = function() {
 $(document).ready(function() {
 
   $('.box').on('click',function() {
+
     if (ticTacToe.gameContinue) {
+
+      //Picks random image to print
+      let numberPicker = Math.floor(Math.random() * 3);
       if (ticTacToe.turnCount % 2 === 0) {
-        $(this).find('img:first').attr('class', 'displayX');
+        if (numberPicker === 0) {
+          $(this).find('img:first').attr('class', 'displayX1');
+        } else if (numberPicker === 1) {
+          $(this).find('img:first').attr('class', 'displayX2');
+        } else {
+          $(this).find('img:first').attr('class', 'displayX3')
+        }
       } else {
-        $(this).find('img:first').attr('class', 'displayO');
+        if (numberPicker === 0) {
+          $(this).find('img:first').attr('class', 'displayO1');
+        } else if (numberPicker === 1) {
+          $(this).find('img:first').attr('class', 'displayO2');
+        } else {
+          $(this).find('img:first').attr('class', 'displayO3')
+        }
       }
 
       $(this).css('pointer-events', 'none');
@@ -319,8 +341,6 @@ $(document).ready(function() {
       ticTacToe.addPiece(rowArg, colArg);
 
       checkRound();
-
-      console.log(ticTacToe.turnCount)
 
       if (!ticTacToe.gameContinue) {
         console.log('game over');

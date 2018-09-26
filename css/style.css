@@ -21,7 +21,9 @@ header {
 
 .textUnder {
   font-size: 25px;
+  line-height: 2em;
   text-align: center;
+  margin-top: 0.5em;
 }
 
 .box {
@@ -37,18 +39,62 @@ header {
   display: none;
 }
 
-.displayX {
+.displayX1 {
   margin: 0 auto;
   padding: 0;
   width: 100%;
   height: 100%;
-  content: url('../images/cross.png');
+  content: url('../images/cross1.png');
 }
 
-.displayO {
+.displayX2 {
   margin: 0 auto;
   padding: 0;
   width: 100%;
   height: 100%;
-  content: url('../images/circle.svg');
+  content: url('../images/cross2.png');
+}
+
+.displayX3 {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  content: url('../images/cross3.png');
+}
+
+.displayO1 {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  content: url('../images/circle1.png');
+}
+
+.displayO2 {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  content: url('../images/circle2.png');
+}
+
+.displayO3 {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  content: url('../images/circle3.png');
+}
+
+.score {
+  margin: 0;
+}
+
+footer {
+  float: right;
+}
+
+.buttonDiv {
+  padding: 1em;
 }
