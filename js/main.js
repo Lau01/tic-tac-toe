@@ -193,6 +193,18 @@ const checkWinX = function(element) {
   return element === 1;
 };
 
+const createBoardArray = function(cellNumber) {
+  let board = [];
+  console.log(row);
+  for (i = 0; i < cellNumber; i++) {
+    board.push([]);
+  }
+  console.log(board);
+  ticTacToe.boardState = board;
+  ticTacToe.boardState[2][2] = 'X';  // test it!
+  console.table( ticTacToe.boardState );
+};
+
 const ticTacToe = {
   boardState: [
     ["", "", ""],
@@ -350,6 +362,15 @@ const ticTacToe = {
 $(document).ready(function() {
   let changedName = false;
 
+  let changedCell = false;
+
+  const cellUiChange = function() {
+    $('#cellUi').html(`by ${$('#cellInput').val()} cells`)
+    changedCell = true;
+  };
+
+  $('#cellInput').on('input', function() {cellUiChange()});
+
   const player1Name = function(){
     if (!changedName) {
       return 'Player 1';
@@ -429,6 +450,9 @@ $(document).ready(function() {
 
   $('#saveSettings').on('click', function() {
     changedName = true;
+    if (changedCell) {
+      $('#restartButton').trigger('click');
+    }
     $('#exampleModal').modal('hide');
   })
 
@@ -439,6 +463,7 @@ $(document).ready(function() {
     $('#whoWins').html(`${player1Name()}'s Turn`);
     $('#replayButton').attr('disabled', true);
   });
+
 }); //document ready
 
 // For dynamic board:
