@@ -87,12 +87,25 @@ header {
   content: url('../images/circle3.png');
 }
 
+
 .score {
-  margin: 0;
+  display: inline-block;
+  margin: 0 2em 0 2em;
 }
+
 
 footer {
   float: right;
+}
+
+button {
+}
+
+.insideFooter {
+  display: inline-block;
+}
+
+#replayButton {
 }
 
 .buttonDiv {

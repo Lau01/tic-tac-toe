@@ -73,7 +73,7 @@
 // Your Github portfolio site
 // Any other front-end project that interests you
 
-// FIRST ATTEMP &&&&&&&&&&&&&
+// FIRST ATTEMPT &&&&&&&&&&&&&
 // const ticTacToe = {
 //   cells: [
 //     0, 0, 0,
@@ -138,7 +138,6 @@
 //
 // }); //document.ready
 
-
 // Attempt at ROW/COLS
 // const ticTacToe = {
 //   column: [1, 1, 1],
@@ -186,8 +185,6 @@
 //   })
 // };
 
-
-
 const checkWinO = function(element) {
   return element === 0;
 };
@@ -205,19 +202,24 @@ const ticTacToe = {
 
   turnCount: 0,
 
-  checkDraw: function() {
-    if (this.turnCount === 9 && this.gameContinue) {
-      return this.draw = true;
-    }
-  },
-
   gameContinue: true,
+
+  gameScoreX: 0,
+
+  gameScoreO: 0,
 
   xWin: false,
 
   oWin: false,
 
   draw: false,
+
+  checkDraw: function() {
+    if (this.turnCount === 9 && this.gameContinue) {
+      this.gameContinue = false;
+      return this.draw = true;
+    }
+  },
 
   addO: function(row, column) {
     if (this.boardState[row][column] === '') {
@@ -277,7 +279,7 @@ const ticTacToe = {
 
   checkDiagTopLeft: function() {
     let diagonalArray1 = ['', '', ''];
-    for (let i = 0; i < this.boardState[1].length; i++) {
+    for (let i = 0; i < this.boardState.length; i++) {
       diagonalArray1[i] = this.boardState[i][i];
 
       if (diagonalArray1.every(checkWinX)) {
@@ -292,8 +294,8 @@ const ticTacToe = {
 
   checkDiagTopRight: function() {
     let diagonalArray2 = ['', '', ''];
-    for (let i = 0; i < 3; i++) { //3 should be length of array (row)
-      diagonalArray2[i] = this.boardState[i][(this.boardState.length - 1)-i]; //use length-1 instead of 2
+    for (let i = 0; i < this.boardState.length; i++) {
+      diagonalArray2[i] = this.boardState[i][(this.boardState.length - 1)-i];
 
       if (diagonalArray2.every(checkWinX)) {
         this.xWin = true;
@@ -305,8 +307,31 @@ const ticTacToe = {
     }
   },
 
+  gameCount: function () {
+    if (this.xWin) {
+      this.gameScoreX += 1;
+    } else if (this.oWin) {
+      this.gameScoreO += 1;
+    }
+  },
+
   gameRestart: function() {
 
+    this.turnCount = 0;
+    this.gameContinue = true;
+    this.gameScoreX = 0;
+    this.gameScoreO = 0;
+    this.xWin = false;
+    this.oWin = false;
+    this.draw = false;
+    this.boardState = [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+    ];
+  },
+
+  gameReplay: function() {
     this.turnCount = 0;
     this.gameContinue = true;
     this.xWin = false;
@@ -321,24 +346,56 @@ const ticTacToe = {
 
 }; // ticTacToe
 
-const checkRound = function() {
-  ticTacToe.checkRowWin();
-  ticTacToe.checkColumnWin();
-  ticTacToe.checkDiagTopLeft();
-  ticTacToe.checkDiagTopRight();
-  ticTacToe.checkDraw();
-  if (ticTacToe.xWin) {
-    $('#whoWins').html('Player 1 Wins!');
-  } else if (ticTacToe.oWin) {
-    $('#whoWins').html('Player 2 wins!');
-  } else if (ticTacToe.draw) {
-    $('#whoWins').html('DRAW!');
-  }
-};
-
-
 /////////////////////jQuery/////////////////////////////
 $(document).ready(function() {
+  let changedName = false;
+
+  const player1Name = function(){
+    if (!changedName) {
+      return 'Player 1';
+    } else {
+      return $('#namePlayer1').val();
+    }
+  };
+
+  const player2Name = function(){
+    if (!changedName) {
+      return 'Player 2';
+    } else {
+      return $('#namePlayer2').val();
+    }
+  };
+
+  const checkRound = function() {
+    ticTacToe.checkRowWin();
+    ticTacToe.checkColumnWin();
+    ticTacToe.checkDiagTopLeft();
+    ticTacToe.checkDiagTopRight();
+    ticTacToe.checkDraw();
+    ticTacToe.gameCount();
+
+    if (ticTacToe.turnCount % 2 === 0) {
+      $('#whoWins').html(`${player1Name()}'s turn!`);
+    } else {
+      $('#whoWins').html(`${player2Name()}'s turn!`);
+    }
+
+    if (ticTacToe.xWin) {
+      $('#whoWins').html(`${player1Name()} Wins!`);
+    } else if (ticTacToe.oWin) {
+      $('#whoWins').html(`${player2Name()} Wins!`);
+    } else if (ticTacToe.draw) {
+      $('#whoWins').html('DRAW!');
+    }
+
+    $('#player1Score').html(`${ticTacToe.gameScoreX}`);
+    $('#player2Score').html(`${ticTacToe.gameScoreO}`);
+
+
+    if (!ticTacToe.gameContinue) {
+      $('#replayButton').attr('disabled', false);
+    }
+  };
 
   $('.box').on('click',function() {
 
@@ -353,23 +410,42 @@ $(document).ready(function() {
       $(this).css('pointer-events', 'none');
 
       // grab coords of box clicked
-      let rowArg = parseInt($(this)[0].className.split('')[1]);
-      let colArg = parseInt($(this)[0].className.split('')[4]);
+      let rowArg = parseInt($(this).attr('row'));
+      let colArg = parseInt($(this).attr('col'));
       ticTacToe.addPiece(rowArg, colArg);
 
       checkRound();
-    } //if gameContinue
+    }// if gameContinue
   }); //box click function
 
   $('#restartButton').on('click', function(){
-    console.log('clicked');
     ticTacToe.gameRestart();
     $('.box img').attr('class', 'imageInBox');
     $('.box').css('pointer-events', 'auto');
+    $('#whoWins').html(`${player1Name()}'s Turn`);
+    $('#player1Score').html('0');
+    $('#player2Score').html('0');
   }); //restartButton function
 
+  $('#saveSettings').on('click', function() {
+    changedName = true;
+    $('#exampleModal').modal('hide');
+  })
 
+  $('#replayButton').on('click', function() {
+    ticTacToe.gameReplay();
+    $('.box img').attr('class', 'imageInBox');
+    $('.box').css('pointer-events', 'auto');
+    $('#whoWins').html(`${player1Name()}'s Turn`);
+    $('#replayButton').attr('disabled', true);
+  });
 }); //document ready
+
+// For dynamic board:
+// need dynamic array in boardState
+// dynamically create each row and give class as 'row'
+// dynamically create divs in each row equal to input. class ='rN cN col box rounded'
+// put image in each div created with class= 'imageInBox'
 
 
 // %%%%%%%%%%%%%%%%%FOR DIVS %%%%%%%%%%%%%%%%%%%%%%%%%%
