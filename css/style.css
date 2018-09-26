@@ -93,6 +93,14 @@ header {
   margin: 0 2em 0 2em;
 }
 
+#player1Score {
+  color: #007bff;
+}
+
+#player2Score {
+  color: #dc3545;
+}
+
 
 footer {
   float: right;

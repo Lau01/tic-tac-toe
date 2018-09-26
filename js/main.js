@@ -194,14 +194,15 @@ const checkWinX = function(element) {
 };
 
 const createBoardArray = function(cellNumber) {
-  let board = [];
-  console.log(row);
-  for (i = 0; i < cellNumber; i++) {
-    board.push([]);
+  let board =[];
+  for (let i = 0; i < cellNumber; i++) {
+    board[i] = new Array(cellNumber);
+    for(let j = 0; j < cellNumber; j++) {
+      board[i][j] = "";
+    }
   }
-  console.log(board);
-  ticTacToe.boardState = board;
-  ticTacToe.boardState[2][2] = 'X';  // test it!
+  return board;
+  console.table(board); // test it!
   console.table( ticTacToe.boardState );
 };
 
@@ -327,7 +328,7 @@ const ticTacToe = {
     }
   },
 
-  gameRestart: function() {
+  gameRestart: function(cellAmount) {
 
     this.turnCount = 0;
     this.gameContinue = true;
@@ -336,11 +337,7 @@ const ticTacToe = {
     this.xWin = false;
     this.oWin = false;
     this.draw = false;
-    this.boardState = [
-      ["", "", ""],
-      ["", "", ""],
-      ["", "", ""],
-    ];
+    this.boardState = createBoardArray(cellAmount);
   },
 
   gameReplay: function() {
@@ -364,14 +361,8 @@ $(document).ready(function() {
 
   let changedCell = false;
 
-  const cellUiChange = function() {
-    $('#cellUi').html(`by ${$('#cellInput').val()} cells`)
-    changedCell = true;
-  };
-
-  $('#cellInput').on('input', function() {cellUiChange()});
-
-  const player1Name = function(){
+  //player 1 is name even if empty input
+  const player1Name = function() {
     if (!changedName) {
       return 'Player 1';
     } else {
@@ -379,7 +370,7 @@ $(document).ready(function() {
     }
   };
 
-  const player2Name = function(){
+  const player2Name = function() {
     if (!changedName) {
       return 'Player 2';
     } else {
@@ -387,6 +378,7 @@ $(document).ready(function() {
     }
   };
 
+  //function to check round status and updates some html
   const checkRound = function() {
     ticTacToe.checkRowWin();
     ticTacToe.checkColumnWin();
@@ -402,11 +394,13 @@ $(document).ready(function() {
     }
 
     if (ticTacToe.xWin) {
-      $('#whoWins').html(`${player1Name()} Wins!`);
+      $('#whoWins').html(`${player1Name()} Wins!`).css('color', '#007bff');
     } else if (ticTacToe.oWin) {
-      $('#whoWins').html(`${player2Name()} Wins!`);
+      $('#whoWins').html(`${player2Name()} Wins!`).css('color','#dc3545');
     } else if (ticTacToe.draw) {
-      $('#whoWins').html('DRAW!');
+      $('#whoWins').html('DRAW!').css('color', '#6610f2');
+    } else {
+      $('#whoWins').css('color', '#000000');
     }
 
     $('#player1Score').html(`${ticTacToe.gameScoreX}`);
@@ -418,6 +412,30 @@ $(document).ready(function() {
     }
   };
 
+  //used to change UI on input
+  const cellUiChange = function() {
+    $('#cellUi').html(`by ${$('#cellInput').val()} cells`)
+    changedCell = true;
+  };
+
+  const createRowDivs = function(cellAmount) {
+    for (i = 0; i < cellAmount; i++) {
+      $('#container').append(`<div class='row' id='row${i}'></div>`)
+    }
+  }
+
+  const createColDivs = function(cellAmount) {
+    for (i = 0; i < cellAmount; i++) {
+      for(j = 0; j < cellAmount; j++) {
+      $(`#row${i}`).append(`<div row='${i}' col='${j}' class='col box rounded'></div>`)
+      }
+    }
+    $('.col.box.rounded').append("<img class=imageInBox/>");
+  };
+
+  $('#cellInput').on('input', function() {cellUiChange()}); //changes cell UI settings on input
+
+  //on click
   $('.box').on('click',function() {
 
     if (ticTacToe.gameContinue) {
@@ -439,15 +457,21 @@ $(document).ready(function() {
     }// if gameContinue
   }); //box click function
 
-  $('#restartButton').on('click', function(){
-    ticTacToe.gameRestart();
+  //restart everything other than player names (needs fix)
+  $('#restartButton').on('click', function() {
+    ticTacToe.gameRestart($('#cellInput').val());
     $('.box img').attr('class', 'imageInBox');
     $('.box').css('pointer-events', 'auto');
     $('#whoWins').html(`${player1Name()}'s Turn`);
     $('#player1Score').html('0');
     $('#player2Score').html('0');
+    $('#whoWins').css('color', '#000000')
+    $('#container').empty();
+    createRowDivs($('#cellInput').val());
+    createColDivs($('#cellInput').val());
   }); //restartButton function
 
+  //modal save setting button. when pressed just hides with inputs still there. if cell number changed, call function to restartGame
   $('#saveSettings').on('click', function() {
     changedName = true;
     if (changedCell) {
@@ -462,12 +486,15 @@ $(document).ready(function() {
     $('.box').css('pointer-events', 'auto');
     $('#whoWins').html(`${player1Name()}'s Turn`);
     $('#replayButton').attr('disabled', true);
+    $('#whoWins').css('color', '#000000')
   });
+
+
 
 }); //document ready
 
 // For dynamic board:
-// need dynamic array in boardState
+// need dynamic array in boardState --done
 // dynamically create each row and give class as 'row'
 // dynamically create divs in each row equal to input. class ='rN cN col box rounded'
 // put image in each div created with class= 'imageInBox'

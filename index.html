@@ -13,20 +13,20 @@
 
   </nav>
   <div id="container">
-    <div class="row" id="row1">
-      <div row="0" col="0" class='col box rounded' id="box1"><img class="imageInBox" id="image1"/></div>
-      <div row="0" col="1" class='col box rounded' id="box2"><img class="imageInBox" id="image2"/></div>
-      <div row="0" col="2" class='col box rounded' id="box3"><img class="imageInBox" id="image3"/></div>
+    <div class="row">
+      <div row="0" col="0" class='col box rounded'><img class="imageInBox"/></div>
+      <div row="0" col="1" class='col box rounded'><img class="imageInBox"/></div>
+      <div row="0" col="2" class='col box rounded'><img class="imageInBox"/></div>
     </div>
-    <div class="row" id="row2">
-      <div row="1" col="0" class='col box rounded' id="box4"><img class="imageInBox" id="image4"/></div>
-      <div row="1" col="1" class='col box rounded' id="box5"><img class="imageInBox" id="image5"/></div>
-      <div row="1" col="2" class='col box rounded' id="box6"><img class="imageInBox" id="image6"/></div>
+    <div class="row" >
+      <div row="1" col="0" class='col box rounded'><img class="imageInBox"/></div>
+      <div row="1" col="1" class='col box rounded'><img class="imageInBox"/></div>
+      <div row="1" col="2" class='col box rounded'><img class="imageInBox"/></div>
     </div>
-    <div class="row" id="row3">
-      <div row="2" col="0" class='col box rounded' id="box7"><img class="imageInBox" id="image7"/></div>
-      <div row="2" col="1" class='col box rounded' id="box8"><img class="imageInBox" id="image8"/></div>
-      <div row="2" col="2" class='col box rounded' id="box9"><img class="imageInBox" id="image9"/></div>
+    <div class="row">
+      <div row="2" col="0" class='col box rounded'><img class="imageInBox"/></div>
+      <div row="2" col="1" class='col box rounded'><img class="imageInBox"/></div>
+      <div row="2" col="2" class='col box rounded'><img class="imageInBox"/></div>
     </div>
   </div>
   <div class="textUnder">
@@ -41,6 +41,7 @@
       <!-- modal settings -->
       <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Settings</button>
 
+      <!-- Modal for Settings button -->
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -61,7 +62,7 @@
                 </div>
                 <label for="cellInput">Board:</label>
                 <div class="input-group mb-3">
-                  <input type="number" class="form-control" id="cellInput" placeholder="N x N cells" aria-label="N x N Board" aria-describedby="cellUi" min="3" value="3">
+                  <input type="number" class="form-control" id="cellInput" placeholder="N" aria-label="N x N Board" aria-describedby="cellUi" min="3" value="3">
                   <div class="input-group-append">
                     <span class="input-group-text" id="cellUi">by 3 cells</span>
                   </div>
@@ -74,10 +75,10 @@
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-dark" id="restartButton">RESTART</button>
-      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-dark" id="restartButton">Restart</button>
+      <!-- Button trigger modal. Help Modal -->
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-        HELP?
+        Help?
       </button>
 
       <!-- Modal -->
