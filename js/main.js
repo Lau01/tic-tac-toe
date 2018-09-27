@@ -185,6 +185,10 @@
 //   })
 // };
 
+const randomInteger = function(number) {
+  return Math.floor(Math.random() * number);
+}
+
 const checkWinO = function(element) {
   return element === 0;
 };
@@ -353,8 +357,27 @@ const ticTacToe = {
     this.oWin = false;
     this.draw = false;
     this.boardState = createBoardArray(cellAmount)
-  }
+  },
 
+  aiTurn: function(cellAmount) {
+    let rowPos = randomInteger(cellAmount);
+    let colPos = randomInteger(cellAmount);
+
+    while (this.boardState[rowPos][colPos] !== "") {
+      rowPos = randomInteger(cellAmount);
+      colPos = randomInteger(cellAmount);
+    }
+
+    console.log(rowPos);
+    console.log(colPos);
+
+    this.aiCell[0] = rowPos;
+    this.aiCell[1] = colPos;
+
+    this.addPiece(rowPos, colPos);
+  },
+
+  aiCell: ["", ""],
 }; // ticTacToe
 
 /////////////////////jQuery/////////////////////////////
@@ -448,9 +471,12 @@ $(document).ready(function() {
   // your click handler function will run
   $(document).on('click', '.box', function() {
 
+    console.log($(this).attr("row"));
+    console.log($(this).attr("col"));
+
     if (ticTacToe.gameContinue) {
       //Picks random image to print
-      let numberPicker = Math.floor(Math.random() * 3);
+      let numberPicker = randomInteger(3);
       ticTacToe.turnCount % 2 === 0 ?
       $(this).find('img:first').attr('class', `displayX${numberPicker + 1}`):
       $(this).find('img:first').attr('class', `displayO${numberPicker + 1}`)
@@ -464,7 +490,24 @@ $(document).ready(function() {
       ticTacToe.addPiece(rowArg, colArg);
 
       checkRound();
-    }// if gameContinue
+
+      if ($('#aiButton').prop('checked')) {
+        ticTacToe.aiTurn($('#cellInput').val());
+        console.log(ticTacToe.aiCell);
+        let randomRow = ticTacToe.aiCell[0];
+        console.log(randomRow);
+        // let randomCol = ticTacToe.aiCell[1]
+        //need to print img
+        $(`["row"="${ticTacToe.aiCell[0]}"` `col="${ticTacToe.aiCell[1]}"]`).find('img:first').attr('class', `displayO${randomInteger(3) + 1}`)
+        console.log(ticTacToe.aiCell);
+        ticTacToe.aiCell[0] = "";
+        ticTacToe.aiCell[1] = "";
+        checkRound();
+
+      }
+    }
+
+
   }); //box click function
 
   //restart everything other than player names (needs fix)
@@ -499,171 +542,14 @@ $(document).ready(function() {
     $('#whoWins').css('color', '#000000')
   });
 
-  //disabls difficulty buttons depending on human or AI checked box
-  $('.humanAiButton').on('click', function () {
-    if ($('#aiButton').prop('checked')) {
-      $('.difficultyButtons').prop('disabled', false);
-    } else {
-      $('.difficultyButtons').prop('disabled', true);
-    }
-  });
-
+  // //disabls difficulty buttons depending on human or AI checked box. dont need yet.
+  // $('.humanAiButton').on('click', function () {
+  //   if ($('#aiButton').prop('checked')) {
+  //     $('.difficultyButtons').prop('disabled', false);
+  //   } else {
+  //     $('.difficultyButtons').prop('disabled', true);
+  //   }
+  // });
 
 
 }); //document ready
-
-
-
-// %%%%%%%%%%%%%%%%%FOR DIVS %%%%%%%%%%%%%%%%%%%%%%%%%%
-// $(document).ready(function() {
-//
-//   $('#box1').on('click', function() {
-//     if ($('#image1').attr('class') == 'imageInBox') { //only run if class is initial no picture "imageInBox"
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image1').attr('class', 'displayX'); //change class to X
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image1').attr('class', 'displayO') // change class to O
-//       }
-//       ticTacToe.addPiece(0,0);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//
-//
-//     } else {
-//       return;
-//     }
-//   });
-//
-//   $('#box2').on('click', function() {
-//     if ($('#image2').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image2').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image2').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(0,1);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//   $('#box3').on('click', function() {
-//     if ($('#image3').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image3').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image3').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(0,2);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//   $('#box4').on('click', function() {
-//     if ($('#image4').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image4').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image4').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(1,0);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//   $('#box5').on('click', function() {
-//     if ($('#image5').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image5').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image5').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(1,1);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//   $('#box6').on('click', function() {
-//     if ($('#image6').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image6').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image6').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(1,2);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//   $('#box7').on('click', function() {
-//     if ($('#image7').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image7').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image7').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(2,0);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//   $('#box8').on('click', function() {
-//     if ($('#image8').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image8').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image8').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(2,1);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//   $('#box9').on('click', function() {
-//     if ($('#image9').attr('class') == 'imageInBox') {
-//       if (ticTacToe.turnCount % 2 === 0) {
-//         $('#image9').attr('class', 'displayX');
-//       } else if (ticTacToe.turnCount % 2 !== 0) {
-//         $('#image9').attr('class', 'displayO')
-//       }
-//       ticTacToe.addPiece(2,2);
-//       ticTacToe.checkRowWin();
-//       ticTacToe.checkColumnWin();
-//       ticTacToe.checkDiagTopLeft();
-//       ticTacToe.checkDiagTopRight();
-//       ticTacToe.checkDraw();
-//     }
-//   });
-//
-//
-// }); //document.ready

@@ -9,8 +9,8 @@ header {
 
 #container {
   margin: 0 auto;
-  width: 600px;
-  height: 600px;
+  width: 500px;
+  height: 500px;
 }
 
 .r0.r1.r2 {
@@ -122,4 +122,8 @@ button {
 
 .buttonDiv {
   padding: 1em;
+}
+
+.btn-group-toggle {
+  display: inline-block;
 }
