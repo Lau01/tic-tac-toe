@@ -112,6 +112,15 @@ button {
 
 .playerNames {
   display: inline-block;
+  line-height: 15px;
+}
+
+.blue {
+  color: #007bff;
+}
+
+.red {
+  color: #dc3545;
 }
 
 /* .alert {

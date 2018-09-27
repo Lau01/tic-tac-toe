@@ -576,7 +576,7 @@ $(document).ready(function() {
 
   $('#cellInput').on('input', function() { //changes cell UI settings on input
     cellUiChange()
-    if ($(this).val() >= 3) {
+    if ($(this).val() >= 3 && $(this).val() <= 50) {
       $('.alert').removeClass('visible');
       $('.alert').addClass('invisible');
       $('#saveSettings').attr('disabled', false);
