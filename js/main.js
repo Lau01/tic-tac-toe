@@ -227,8 +227,8 @@ const ticTacToe = {
 
   draw: false,
 
-  checkDraw: function() {
-    if (this.turnCount === 9 && this.gameContinue) {
+  checkDraw: function(cellAmount) {
+    if (this.turnCount === Math.pow(cellAmount, 2) && this.gameContinue) {
       this.gameContinue = false;
       return this.draw = true;
     }
@@ -290,8 +290,11 @@ const ticTacToe = {
     }
   },
 
-  checkDiagTopLeft: function() {
-    let diagonalArray1 = ['', '', ''];
+  checkDiagTopLeft: function(cellAmount) {
+    let diagonalArray1 = new Array(cellAmount);
+    for (let i = 0; i < cellAmount; i++) {
+      diagonalArray1[i] = "";
+    }
     for (let i = 0; i < this.boardState.length; i++) {
       diagonalArray1[i] = this.boardState[i][i];
 
@@ -305,8 +308,11 @@ const ticTacToe = {
     }
   },
 
-  checkDiagTopRight: function() {
-    let diagonalArray2 = ['', '', ''];
+  checkDiagTopRight: function(cellAmount) {
+    let diagonalArray2 = new Array(cellAmount);
+    for (let i = 0; i < cellAmount; i++) {
+      diagonalArray2[i] = "";
+    }
     for (let i = 0; i < this.boardState.length; i++) {
       diagonalArray2[i] = this.boardState[i][(this.boardState.length - 1)-i];
 
@@ -340,17 +346,13 @@ const ticTacToe = {
     this.boardState = createBoardArray(cellAmount);
   },
 
-  gameReplay: function() {
+  gameReplay: function(cellAmount) {
     this.turnCount = 0;
     this.gameContinue = true;
     this.xWin = false;
     this.oWin = false;
     this.draw = false;
-    this.boardState = [
-      ["", "", ""],
-      ["", "", ""],
-      ["", "", ""],
-    ];
+    this.boardState = createBoardArray(cellAmount)
   }
 
 }; // ticTacToe
@@ -382,9 +384,9 @@ $(document).ready(function() {
   const checkRound = function() {
     ticTacToe.checkRowWin();
     ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft();
-    ticTacToe.checkDiagTopRight();
-    ticTacToe.checkDraw();
+    ticTacToe.checkDiagTopLeft($('#cellInput').val());
+    ticTacToe.checkDiagTopRight($('#cellInput').val());
+    ticTacToe.checkDraw($('#cellInput').val());
     ticTacToe.gameCount();
 
     if (ticTacToe.turnCount % 2 === 0) {
@@ -424,6 +426,7 @@ $(document).ready(function() {
     }
   }
 
+  // also adds empty img in divs. changes height and width dynamically
   const createColDivs = function(cellAmount) {
     for (i = 0; i < cellAmount; i++) {
       for(j = 0; j < cellAmount; j++) {
@@ -431,12 +434,19 @@ $(document).ready(function() {
       }
     }
     $('.col.box.rounded').append("<img class=imageInBox/>");
+    $('.row').css('height', `${100/cellAmount}%`);
+    $('.box').css('width', `${100/cellAmount}%`);
   };
 
   $('#cellInput').on('input', function() {cellUiChange()}); //changes cell UI settings on input
 
   //on click
-  $('.box').on('click',function() {
+
+  // event delegation: attach a click handler to the whole document,
+  // and the browser will check *at the point of receiving the click*
+  // if the element clicked actually matches the selector - if so,
+  // your click handler function will run
+  $(document).on('click', '.box', function() {
 
     if (ticTacToe.gameContinue) {
       //Picks random image to print
@@ -481,7 +491,7 @@ $(document).ready(function() {
   })
 
   $('#replayButton').on('click', function() {
-    ticTacToe.gameReplay();
+    ticTacToe.gameReplay($('#cellInput').val());
     $('.box img').attr('class', 'imageInBox');
     $('.box').css('pointer-events', 'auto');
     $('#whoWins').html(`${player1Name()}'s Turn`);
@@ -489,15 +499,19 @@ $(document).ready(function() {
     $('#whoWins').css('color', '#000000')
   });
 
+  //disabls difficulty buttons depending on human or AI checked box
+  $('.humanAiButton').on('click', function () {
+    if ($('#aiButton').prop('checked')) {
+      $('.difficultyButtons').prop('disabled', false);
+    } else {
+      $('.difficultyButtons').prop('disabled', true);
+    }
+  });
+
 
 
 }); //document ready
 
-// For dynamic board:
-// need dynamic array in boardState --done
-// dynamically create each row and give class as 'row'
-// dynamically create divs in each row equal to input. class ='rN cN col box rounded'
-// put image in each div created with class= 'imageInBox'
 
 
 // %%%%%%%%%%%%%%%%%FOR DIVS %%%%%%%%%%%%%%%%%%%%%%%%%%
