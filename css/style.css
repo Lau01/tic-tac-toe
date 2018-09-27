@@ -43,13 +43,6 @@ header {
   display: none;
 }
 
-/* .displayX1 {
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  content: url('../images/cross1.png');
-} */
 .displayX1 {
   background-image: url('../images/cross1.png');
   background-size: cover;
@@ -116,3 +109,11 @@ button {
 .btn-group-toggle {
   display: inline-block;
 }
+
+.playerNames {
+  display: inline-block;
+}
+
+/* .alert {
+  visibility: hidden;
+} */

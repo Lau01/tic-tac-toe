@@ -347,6 +347,7 @@ const ticTacToe = {
     this.xWin = false;
     this.oWin = false;
     this.draw = false;
+    this.aiCell= ["", ""];
     this.boardState = createBoardArray(cellAmount);
   },
 
@@ -368,9 +369,6 @@ const ticTacToe = {
       colPos = randomInteger(cellAmount);
     }
 
-    console.log(rowPos);
-    console.log(colPos);
-
     this.aiCell[0] = rowPos;
     this.aiCell[1] = colPos;
 
@@ -382,6 +380,7 @@ const ticTacToe = {
 
 /////////////////////jQuery/////////////////////////////
 $(document).ready(function() {
+
   let changedName = false;
 
   let changedCell = false;
@@ -449,7 +448,7 @@ $(document).ready(function() {
     }
   }
 
-  // also adds empty img in divs. changes height and width dynamically
+  // changes height and width dynamically
   const createColDivs = function(cellAmount) {
     for (i = 0; i < cellAmount; i++) {
       for(j = 0; j < cellAmount; j++) {
@@ -460,7 +459,16 @@ $(document).ready(function() {
     $('.box').css('width', `${100/cellAmount}%`);
   };
 
-  $('#cellInput').on('input', function() {cellUiChange()}); //changes cell UI settings on input
+  // resets everything to default except score count.
+  const cleanUp = function(cellAmount) {
+    ticTacToe.gameRestart(cellAmount);
+    $('.box').css('pointer-events', 'auto');
+    $('#whoWins').html(`${player1Name()}'s Turn`);
+    $('#whoWins').css('color', '#000000')
+    $('#container').empty();
+    createRowDivs(cellAmount);
+    createColDivs(cellAmount);
+  }
 
   //on click
 
@@ -507,25 +515,52 @@ $(document).ready(function() {
 
   //restart everything other than player names (needs fix)
   $('#restartButton').on('click', function() {
-    ticTacToe.gameRestart($('#cellInput').val());
-    $('.box img').attr('class', 'imageInBox');
-    $('.box').css('pointer-events', 'auto');
-    $('#whoWins').html(`${player1Name()}'s Turn`);
+    cleanUp(3);
     $('#player1Score').html('0');
     $('#player2Score').html('0');
-    $('#whoWins').css('color', '#000000')
-    $('#container').empty();
-    createRowDivs($('#cellInput').val());
-    createColDivs($('#cellInput').val());
   }); //restartButton function
 
   //modal save setting button. when pressed just hides with inputs still there. if cell number changed, call function to restartGame
   $('#saveSettings').on('click', function() {
     changedName = true;
+    $('#xName').html(`${player1Name()}`)
+    $('#oName').html(`${player2Name()}`)
     if (changedCell) {
-      $('#restartButton').trigger('click');
+      cleanUp($('#cellInput').val());
+    }
+
+    if ($('#aiButton').prop('checked')) {
+      cleanUp($('#cellInput').val());
+      $('#player1Score').html('0');
+      $('#player2Score').html('0');
     }
     $('#exampleModal').modal('hide');
+  })
+
+  $('.humanAiButton').on('click', function() {
+    $(this).prop('checked', true);
+  })
+
+  $('#aiButton').on('click', function() {
+    $('#namePlayer2').prop('disabled', true);
+    $('#namePlayer2').val('Player 2');
+  })
+
+  $('#humanButton').on('click', function() {
+    $('#namePlayer2').prop('disabled', false);
+  })
+
+  $('#defaultButton').on('click', function() {
+    $('#namePlayer1').val('Player 1');
+    $('#namePlayer2').val('Player 2');
+    $('#humanButton').prop('checked', true);
+    $('#cellInput').val('3');
+    cleanUp(3);
+    $('#player1Score').html('0');
+    $('#player2Score').html('0');
+    $('#cellUi').html(`by ${$('#cellInput').val()} cells`);
+    $('.alert').addClass('invisible');
+    $('#namePlayer2').prop('disabled', false);
   })
 
   $('#replayButton').on('click', function() {
@@ -536,17 +571,21 @@ $(document).ready(function() {
     $('.box').css('pointer-events', 'auto');
     $('#whoWins').html(`${player1Name()}'s Turn`);
     $('#replayButton').attr('disabled', true);
-    $('#whoWins').css('color', '#000000')
+    $('#whoWins').css('color', '#000000');
   });
 
-  // //disabls difficulty buttons depending on human or AI checked box. dont need yet.
-  // $('.humanAiButton').on('click', function () {
-  //   if ($('#aiButton').prop('checked')) {
-  //     $('.difficultyButtons').prop('disabled', false);
-  //   } else {
-  //     $('.difficultyButtons').prop('disabled', true);
-  //   }
-  // });
+  $('#cellInput').on('input', function() { //changes cell UI settings on input
+    cellUiChange()
+    if ($(this).val() >= 3) {
+      $('.alert').removeClass('visible');
+      $('.alert').addClass('invisible');
+      $('#saveSettings').attr('disabled', false);
+    } else {
+      $('.alert').removeClass('invisible');
+      $('.alert').addClass('visible');
+      $('#saveSettings').attr('disabled', true);
+    }
+  });
 
 
 }); //document ready

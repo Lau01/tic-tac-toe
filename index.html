@@ -31,7 +31,7 @@
   </div>
   <div class="textUnder">
     <p class="turn" id="whoWins">Player 1's Turn</p>
-    <p class="score" id="player1Score">0</p><p class="score">-</p><p class="score" id="player2Score">0</p>
+    <p class="playerNames" id="xName">Player 1</p><p class="score" id="player1Score">0</p><p class="score">-</p><p class="score" id="player2Score">0</p><p class="playerNames" id="oName">Player 2</p>
   </div>
   <footer>
     <div class="buttonDiv">
@@ -43,47 +43,45 @@
 
       <!-- Modal for Settings button -->
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+          </div>
+          <div class="modal-body">
+            <label for="humanAiButton">Player vs :</label>
+            <div>
+              <label class="radio-inline"><input class="humanAiButton" id="humanButton" type="radio" name="optradio1" checked>Human</label>
+              <label class="radio-inline"><input class="humanAiButton" id="aiButton" type="radio" name="optradio1">AI</label>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                  <label for="formGroupExampleInput">Player 1's Name:</label>
-                  <input type="text" class="form-control" id="namePlayer1" placeholder="Player 1" value="Player 1" maxlength="15">
+              <div class="form-group">
+                <label for="formGroupExampleInput">Player 1's Name:</label>
+                <input type="text" class="form-control" id="namePlayer1" placeholder="Player 1" value="Player 1" maxlength="15">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput2">Player 2's Name:</label>
+                <input type="text" class="form-control" id="namePlayer2" placeholder="Player 2" value="Player 2" maxlength="15">
+              </div>
+              <label for="cellInput">Board:</label>
+              <div class="input-group mb-3">
+                <input type="number" class="form-control" id="cellInput" placeholder="N" aria-label="N x N Board" aria-describedby="cellUi" min="3" max="20" value="3">
+                <div class="input-group-append">
+                  <span class="input-group-text" id="cellUi">by 3 cells</span>
                 </div>
-                <div class="form-group">
-                  <label for="formGroupExampleInput2">Player 2's Name:</label>
-                  <input type="text" class="form-control" id="namePlayer2" placeholder="Player 2" value="Player 2" maxlength="15">
-                </div>
-                <label for="cellInput">Board:</label>
-                <div class="input-group mb-3">
-                  <input type="number" class="form-control" id="cellInput" placeholder="N" aria-label="N x N Board" aria-describedby="cellUi" min="3" max="20" value="3">
-                  <div class="input-group-append">
-                    <span class="input-group-text" id="cellUi">by 3 cells</span>
-                  </div>
-                </div>
-                <label for="humanAiButton">Player vs :</label>
-                <div>
-                  <label class="radio-inline"><input class="humanAiButton" id="humanButton" type="radio" name="optradio1" checked>Human</label>
-                  <label class="radio-inline"><input class="humanAiButton" id="aiButton" type="radio" name="optradio1">AI</label>
-                </div>
-                <!-- <div id="difficulty">
-                  maybe later
-                </div> -->
 
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="saveSettings">Save Changes</button>
-            </div>
+              </div>
+              <div id="#tooltipCells" class="invisible alert alert-danger">
+                  Board needs atleast 3 by 3 cells!
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="defaultButton" data-dismiss="modal">Reset to defaults</button>
+            <button type="button" class="btn btn-primary" id="saveSettings">Save Changes</button>
           </div>
         </div>
       </div>
+    </div>
       <button type="button" class="btn btn-dark" id="restartButton">Restart</button>
       <!-- Button trigger modal. Help Modal -->
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
@@ -101,7 +99,7 @@
               </button>
             </div>
             <div class="modal-body">
-              Google instructions.
+              Google how to play
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Got It!</button>
