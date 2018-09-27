@@ -404,12 +404,12 @@ $(document).ready(function() {
   };
 
   //function to check round status and updates some html
-  const checkRound = function() {
+  const checkRound = function(cellAmount) {
     ticTacToe.checkRowWin();
     ticTacToe.checkColumnWin();
-    ticTacToe.checkDiagTopLeft($('#cellInput').val());
-    ticTacToe.checkDiagTopRight($('#cellInput').val());
-    ticTacToe.checkDraw($('#cellInput').val());
+    ticTacToe.checkDiagTopLeft(cellAmount);
+    ticTacToe.checkDiagTopRight(cellAmount);
+    ticTacToe.checkDraw(cellAmount);
     ticTacToe.gameCount();
 
     if (ticTacToe.turnCount % 2 === 0) {
@@ -431,10 +431,10 @@ $(document).ready(function() {
     $('#player1Score').html(`${ticTacToe.gameScoreX}`);
     $('#player2Score').html(`${ticTacToe.gameScoreO}`);
 
-
     if (!ticTacToe.gameContinue) {
       $('#replayButton').attr('disabled', false);
     }
+
   };
 
   //used to change UI on input
@@ -471,9 +471,6 @@ $(document).ready(function() {
   // your click handler function will run
   $(document).on('click', '.box', function() {
 
-    console.log($(this).attr("row"));
-    console.log($(this).attr("col"));
-
     if (ticTacToe.gameContinue) {
       //Picks random image to print
       let numberPicker = randomInteger(3);
@@ -489,20 +486,19 @@ $(document).ready(function() {
       let colArg = parseInt($(this).attr('col'));
       ticTacToe.addPiece(rowArg, colArg);
 
-      checkRound();
+      checkRound($('#cellInput').val());
 
-      if ($('#aiButton').prop('checked')) {
+      //"ai"
+      if ($('#aiButton').prop('checked') && ticTacToe.gameContinue) {
         ticTacToe.aiTurn($('#cellInput').val());
-        console.log(ticTacToe.aiCell);
         let randomRow = ticTacToe.aiCell[0];
-        console.log(randomRow);
-        // let randomCol = ticTacToe.aiCell[1]
-        //need to print img
-        $(`["row"="${ticTacToe.aiCell[0]}"` `col="${ticTacToe.aiCell[1]}"]`).find('img:first').attr('class', `displayO${randomInteger(3) + 1}`)
-        console.log(ticTacToe.aiCell);
+        let randomCol = ticTacToe.aiCell[1]
+        //prints img and turns off pointer events in div
+        $(`.box[row="${randomRow}"][col="${randomCol}"]`).find('img:first').attr('class', `displayO${randomInteger(3) + 1}`)
+        $(`.box[row="${randomRow}"][col="${randomCol}"]`).css('pointer-events', 'none');
         ticTacToe.aiCell[0] = "";
         ticTacToe.aiCell[1] = "";
-        checkRound();
+        checkRound($('#cellInput').val());
 
       }
     }
