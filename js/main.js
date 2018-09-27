@@ -456,7 +456,6 @@ $(document).ready(function() {
       $(`#row${i}`).append(`<div row='${i}' col='${j}' class='col box rounded'></div>`)
       }
     }
-    $('.col.box.rounded').append("<img class=imageInBox/>");
     $('.row').css('height', `${100/cellAmount}%`);
     $('.box').css('width', `${100/cellAmount}%`);
   };
@@ -475,8 +474,8 @@ $(document).ready(function() {
       //Picks random image to print
       let numberPicker = randomInteger(3);
       ticTacToe.turnCount % 2 === 0 ?
-      $(this).find('img:first').attr('class', `displayX${numberPicker + 1}`):
-      $(this).find('img:first').attr('class', `displayO${numberPicker + 1}`)
+      $(this).addClass(`displayX${numberPicker + 1}`):
+      $(this).addClass(`displayO${numberPicker + 1}`)
 
       //prevent further clicks
       $(this).css('pointer-events', 'none');
@@ -494,7 +493,7 @@ $(document).ready(function() {
         let randomRow = ticTacToe.aiCell[0];
         let randomCol = ticTacToe.aiCell[1]
         //prints img and turns off pointer events in div
-        $(`.box[row="${randomRow}"][col="${randomCol}"]`).find('img:first').attr('class', `displayO${randomInteger(3) + 1}`)
+        $(`.box[row="${randomRow}"][col="${randomCol}"]`).addClass(`displayO${randomInteger(3) + 1}`)
         $(`.box[row="${randomRow}"][col="${randomCol}"]`).css('pointer-events', 'none');
         ticTacToe.aiCell[0] = "";
         ticTacToe.aiCell[1] = "";
@@ -531,7 +530,9 @@ $(document).ready(function() {
 
   $('#replayButton').on('click', function() {
     ticTacToe.gameReplay($('#cellInput').val());
-    $('.box img').attr('class', 'imageInBox');
+    $('#container').empty();
+    createRowDivs($('#cellInput').val());
+    createColDivs($('#cellInput').val());
     $('.box').css('pointer-events', 'auto');
     $('#whoWins').html(`${player1Name()}'s Turn`);
     $('#replayButton').attr('disabled', true);
@@ -549,3 +550,6 @@ $(document).ready(function() {
 
 
 }); //document ready
+
+
+// fix restart when change to AI. should restart game.

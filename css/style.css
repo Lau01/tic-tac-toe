@@ -43,52 +43,41 @@ header {
   display: none;
 }
 
-.displayX1 {
+/* .displayX1 {
   margin: 0 auto;
   padding: 0;
   width: 100%;
   height: 100%;
   content: url('../images/cross1.png');
+} */
+.displayX1 {
+  background-image: url('../images/cross1.png');
+  background-size: cover;
 }
 
 .displayX2 {
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  content: url('../images/cross2.png');
+  background-image: url('../images/cross2.png');
+  background-size: cover;
 }
 
 .displayX3 {
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  content: url('../images/cross3.png');
+  background-image: url('../images/cross3.png');
+  background-size: cover;
 }
 
 .displayO1 {
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  content: url('../images/circle1.png');
+  background-image: url('../images/circle1.png');
+  background-size: cover;
 }
 
 .displayO2 {
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  content: url('../images/circle2.png');
+  background-image: url('../images/circle2.png');
+  background-size: cover;
 }
 
 .displayO3 {
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  content: url('../images/circle3.png');
+  background-image: url('../images/circle3.png');
+  background-size: cover;
 }
 
 
