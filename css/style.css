@@ -92,14 +92,8 @@ footer {
   float: right;
 }
 
-button {
-}
-
 .insideFooter {
   display: inline-block;
-}
-
-#replayButton {
 }
 
 .buttonDiv {
@@ -123,6 +117,10 @@ button {
   color: #dc3545;
 }
 
-/* .alert {
-  visibility: hidden;
-} */
+.instructions {
+  width: 80%;
+}
+
+.middle {
+  text-align: middle;
+}
