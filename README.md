@@ -16,7 +16,6 @@ A Tic Tac Toe game played in the browser. Basic game features the standard 3x3 b
 ### Known Bugs
 * Player names input can be empty
 * Can enter the "e" value in the board size input due to scientific notation *(e.g "1e2" returns 100)*
-* Clicking away from settings modal will mess up game logic
 * Can change to AI mid game (and vice versa)
 
 ### References
