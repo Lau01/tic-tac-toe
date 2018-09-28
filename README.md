@@ -17,7 +17,7 @@ A Tic Tac Toe game played in the browser. Basic game features the standard 3x3 b
 * Player names input can be empty
 * Can enter the "e" value in the board size input due to scientific notation *(e.g "1e2" returns 100)*
 * Currently no way to exit settings menu without restarting board
-
+* Can change to AI mid game (and vice versa)
 
 ### References
 [Images used](https://banner2.kisspng.com/20180502/lyw/kisspng-tic-tac-toe-board-game-clip-art-prompt-vector-5ae9d4d478b2b7.0388248715252738124944.jpg)
